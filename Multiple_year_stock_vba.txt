@@ -1,0 +1,136 @@
+Option Explicit
+Sub Stock_Volume()
+    Dim D_Vol As Double
+    Dim S_Ticker As String
+    Dim S_Tick_I As String
+    Dim S_Tick_D As String
+    Dim S_Tick_V As String
+    Dim I As Long
+    Dim I_Count As Integer
+    Dim I_Count2 As Integer
+    Dim I_LRow As Long
+    Dim D_I_Price As Double
+    Dim D_L_Price As Double
+    Dim D_Var As Double
+    Dim D_Per As Double
+    Dim D_Format As String
+    Dim D_Form2 As String
+    Dim D_Form3 As String
+    Dim D_Chng As Double
+    Dim B_True As Boolean
+    Dim D_G_Inc As Double
+    Dim D_G_Dec As Double
+    Dim D_G_Vol As Double
+    Dim ws As Worksheet
+    
+    For Each ws In Worksheets
+    
+            
+        ' Get last row
+        I_LRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+        
+        ' Initialization of the variants
+        I = 2
+        D_Vol = 0
+        I_Count = 2
+        I_Count2 = 2
+        B_True = True
+        D_G_Inc = 0
+        D_G_Dec = 0
+        D_G_Vol = 0
+        
+        ' Cell Headers
+        ws.Cells(1, 9).Value = "Ticker"
+        ws.Cells(1, 10).Value = "Yearly Change"
+        ws.Cells(1, 11).Value = "Percent Change"
+        ws.Cells(1, 12).Value = "Total Sotck Volume"
+        ws.Cells(1, 15).Value = "Ticker"
+        ws.Cells(1, 16).Value = "Value"
+        ws.Cells(2, 14).Value = "Greatest % increase"
+        ws.Cells(3, 14).Value = "Greatest % Decrease"
+        ws.Cells(4, 14).Value = "Greatest total volume"
+        
+        ' Loop for review all the lines
+        For I = 2 To I_LRow
+            ' Flag for getting the first open stock value
+            If B_True = True Then
+                D_I_Price = ws.Cells(I, 3).Value
+                B_True = False
+            End If
+            
+            ' Condition for validating the change of "Ticker"
+            If ws.Cells(I + 1, 1).Value = ws.Cells(I, 1).Value Then
+                S_Ticker = ws.Cells(I, 1).Value
+                D_Vol = D_Vol + ws.Cells(I, 7).Value
+            Else
+                ' Condition to get the unique value of "Ticker" and sum of "Volume"
+                ws.Cells(I_Count, 9).Value = S_Ticker
+                ws.Cells(I_Count2, 12).Value = D_Vol
+                I_Count = I_Count + 1
+                I_Count2 = I_Count2 + 1
+                
+                ' Condition to get Greates Volume and get the correspondant Ticker
+                If D_G_Vol < D_Vol Then
+                    D_G_Vol = D_Vol
+                    S_Tick_V = S_Ticker
+                End If
+                
+                D_Vol = 0
+                
+                ' Value of the lastclose stock value
+                D_L_Price = ws.Cells(I, 6).Value
+                D_Var = D_L_Price - D_I_Price
+                
+                ' Condition to change cell background color based in the value of the Yearly Change
+                If D_Var < 0 Then
+                    ws.Cells(I_Count - 1, 10).Interior.ColorIndex = 3
+                    ws.Cells(I_Count - 1, 10).Value = D_Var
+                Else
+                    ws.Cells(I_Count - 1, 10).Interior.ColorIndex = 4
+                    ws.Cells(I_Count - 1, 10).Value = D_Var
+                End If
+                ' Validation of the "Percentage Change"
+                ws.Cells(I_Count - 1, 10).Value = D_Var
+                
+                ' Manage Error by Div by 0
+                If D_I_Price = 0 Then
+                    D_Per = 0
+                Else
+                    D_Per = (D_L_Price - D_I_Price) / D_I_Price
+                End If
+                
+                ' Change of the format of the cell for "Percentage"
+                D_Format = Format(D_Per, "Percent")
+                ws.Cells(I_Count - 1, 11).Value = D_Format
+                
+                'Change of flag for getting the first open stock value
+                B_True = True
+                
+                ' Condition to get Greatest % Increase and get the correspondant Ticker
+                If D_G_Inc < D_Per Then
+                    D_G_Inc = D_Per
+                    S_Tick_I = S_Ticker
+                End If
+                
+                ' Condition to get Greates % Decrease and get the correspondant Ticker
+                If D_G_Dec > D_Per Then
+                    D_G_Dec = D_Per
+                    S_Tick_D = S_Ticker
+                End If
+             End If
+        Next
+        
+        ' Move value of Greatest % Increase, Decrease and Volume
+        D_Form2 = Format(D_G_Inc, "Percent")
+        ws.Cells(2, 16).Value = D_Form2
+        D_Form3 = Format(D_G_Dec, "Percent")
+        ws.Cells(3, 16).Value = D_Form3
+        ws.Cells(4, 16).Value = D_G_Vol
+        ws.Cells(2, 15).Value = S_Tick_I
+        ws.Cells(3, 15).Value = S_Tick_D
+        ws.Cells(4, 15).Value = S_Tick_V
+        
+        ws.Cells.EntireColumn.AutoFit
+    Next
+        
+End Sub
