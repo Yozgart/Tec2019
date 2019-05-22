@@ -1,6 +1,5 @@
-/* Add your styles here */
 .navbar {
-    background: hsl(0, 0%, 100%);
+    background: #102542;
     font-size: 20px;
     padding-left: 100px;
     padding-right: 100px;
@@ -10,12 +9,12 @@
     font-size: 25px;
     font-family: Book Antiqua;
     font-weight: bold;
-    color: rgb(255, 255, 255);
-    background: rgb(15, 168, 168);
+    color: #FFFFFF;
+    background: #F87060;
 }
 .navbar li a {
     display: block;
-    color: rgb(172, 172, 172);
+    color: #B3A394;
   }
 
 .container {
@@ -24,14 +23,14 @@
 }
 
 .container h1 {
-    color:  rgb(15, 168, 168);
+    color:  #F87060;
     font-family: Book Antiqua;
     font-weight: bold;
     margin-left: 10px;
 }
 
 .container h2 {
-    color:  rgb(15, 168, 168);
+    color:  #F87060;
     padding-top: 30px;
     padding-left: 20px;
     font-family: Book Antiqua;
@@ -47,11 +46,11 @@
     line-height: 2.2;
     padding-left: 20px;
     padding-right: 20px;
-    color: rgb(128, 128, 128);
+    color: #102542;
 }
 
 .col-lg-8 {
-    border-right: solid rgb(226, 225, 225);
+    border-right: solid #CDD7D6;
     border-right-width: 40px;
     padding: 40px;
 }
@@ -60,7 +59,7 @@
     margin-left: -10px;
 }
 .container h3 {
-    color:  rgb(15, 168, 168);
+    color:  #F87060;
     text-align: center;
     font-family: Book Antiqua;
     font-weight: bold;
@@ -72,29 +71,29 @@
     border-spacing: 40px;
     padding: 50px;
 }
-#maintable td, th { border: 1px solid #CCC; 
+#maintable td, th { border: 1px solid #FFFFFF; 
 text-align:  center;}  
 
 
 #maintable th {  
-    background: #F3F3F3; /* Light grey background */
-    font-weight: bold; /* Make sure they're bold */
+    background: #F3F3F3;
+    font-weight: bold;
 }
 
 #maintable td {  
-    background: #FAFAFA; /* Lighter grey background */
-    text-align: center; /* Center our text */
+    background: #FAFAFA;
+    text-align: center;
 }
 
 .boxx {
-    border: solid rgb(15, 168, 168);
+    border: solid #F87060;
 
 }
 
 @media (max-width: 800px)
 {
     .col-lg-8 {
-        border-bottom: solid rgb(226, 225, 225);
+        border-bottom: solid #FFFFFF;
         border-bottom-width: 40px;
         border-right: 20px;
     }
