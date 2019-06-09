@@ -1,4 +1,4 @@
-# Inicializa las dependencias
+# Dependencias
 import time
 from bs4 import BeautifulSoup as bs
 import requests
@@ -19,18 +19,18 @@ def init_browser():
 def scrape():
     browser = init_browser()
 
-    # Se crea un diccionario con la información
+    # Diccionario de info
     mars_data = {}
 
-    # Navegar en la siguiente pagina
+    # Siguiente Página
     url = "https://mars.nasa.gov/news/"
     browser.visit(url)
  
-    # Simular la navegación
+    # SImulación
     html = browser.html
     soup = bs(html, 'html.parser')
 
-    # Busca el resultado mas reciente
+    # Encontrar Reciente
     article = soup.find("div", class_="list_text")
     news_p = article.find("div", class_="article_teaser_body").text
     news_title = article.find("div", class_="content_title").text
@@ -41,18 +41,18 @@ def scrape():
     mars_data["news_title"] = news_title
     mars_data["summary"] = news_p
 
-    # Navegar en otra pagina
+    # Siguiente Página
     url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
     browser.visit(url)
 
-    # Realizar el scraping en la pagina y guarda la url en una variable
+    # Scraping
     html = browser.html
     soup = bs(html, 'html.parser')
     image = soup.find('img', class_="thumb")["src"]
     img_url = "https://jpl.nasa.gov"+image
     mars_data["img_url"] = img_url
 
-    # Realiza el scraping en twitter
+    # Scraping en twitter
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
@@ -61,7 +61,7 @@ def scrape():
     mars_weather=full_tweet[0]['text']    
     mars_data["mars_weather"] = mars_weather
 
-	# Navegar en otra pagina
+	# Siguiente Página
     url = "https://space-facts.com/mars/"
     browser.visit(url)
 
@@ -73,7 +73,7 @@ def scrape():
     marsinformation =marsinformation.replace('\n', ' ')
     mars_data["mars_table"] = marsinformation
 
-	# Navegar en otra pagina
+	# Siguiente Página
     url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(url)
     html = browser.html
@@ -94,5 +94,5 @@ def scrape():
         browser.back()
 
     mars_data['mars_hemis'] = mars_hemis
-    # Regresa el diccionario
+    # Diccionario
     return mars_data
